@@ -1,35 +1,32 @@
+// ----------------------------------------------------------------------------
+//
+// feed2summary.js
+//
+// Copyright 2013 Andrew Chilton <andychilton@gmail.com>
+//
+// ----------------------------------------------------------------------------
+
 var fs = require('fs');
 var http = require('http');
 var https = require('https');
 
 var async = require('async');
 var sax = require('sax');
+var levelup = require('levelup');
+
+// ----------------------------------------------------------------------------
 
 var filename = process.argv[2];
 var data = fs.readFileSync(filename, 'utf8');
-
 var feeds = data.split(/\n/);
-var errors = [];
 
-// save all of the items we find
-var items = [];
-var debug = function(msg) {
-    if ( false ) {
-        console.log(msg);
-    }
-};
-var log = function(msg) {
-    console.log(msg);
-}
+var db = levelup(filename + '.db');
+
+// ----------------------------------------------------------------------------
 
 async.eachSeries(
     feeds,
     function(feed, done) {
-        // if we're in development mode, just fetch one in every 20 feeds
-        // if ( process.env.NODE_ENV === 'development' && Math.random() < 0.98 ) {
-        //     return done();
-        // }
-
         // if feed is a blank line, then just done()
         if ( !feed.match(/\S/) ) {
             return done();
@@ -194,3 +191,16 @@ function request(url, callback) {
         callback(e);
     });
 }
+
+// ----------------------------------------------------------------------------
+
+var debug = function(msg) {
+    if ( false ) {
+        console.log(msg);
+    }
+};
+var log = function(msg) {
+    console.log(msg);
+}
+
+// ----------------------------------------------------------------------------
