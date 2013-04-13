@@ -1,0 +1,95 @@
+# Friends
+http://chilts.org/blog/atom.xml
+http://feeds.email-reminder.org.nz/email-reminder
+http://frugalme.wordpress.com/feed/
+http://api.flickr.com/services/feeds/groups_pool.gne?id=619684@N24&amp;lang=en-us&amp;format=rss_200
+# http://zaapt.org.nz/blog/rss20.xml
+# http://simple.zaapt.org.nz/blog/rss20.xml
+# http://simple.zaapt.org.nz/news/rss20.xml
+# http://zaapt.org.nz/news/rss20.xml
+http://triumphovermadness.com/blog/feed/
+http://feeds.feedburner.com/ChiltsOrg-Photo
+
+# Technology/Devops
+http://www.kickstarter.com/backing-and-hacking.atom
+http://www.twilio.com/engineering/feed/
+http://techblog.netflix.com/feeds/posts/default
+http://feeds.feedburner.com/bitlyword
+http://code.flickr.com/blog/feed/
+http://engineering.linkedin.com/taxonomy/term/1/feed
+https://github.com/blog/engineering.atom
+http://devops.rackspace.com/feed
+
+# Geek
+https://github.com/blog/broadcasts.atom
+https://github.com/blog/ship.atom
+https://github.com/blog/engineering.atom
+https://github.com/blog/watercooler.atom
+http://static.fsf.org/fsforg/rss/news.xml
+
+# Node.js
+http://blog.nodejs.org/feed/
+http://feeds.feedburner.com/badassjs
+http://tjholowaychuk.com/rss
+http://substack.net/blog.xml
+http://nodebits.org/feed.xml
+http://blog.nodejs.org/feed/
+http://joyeur.com/feed/
+http://howtonode.org/feed.xml
+http://blog.izs.me/rss
+http://feeds.feedburner.com/debuggable
+
+# JavaScript
+http://blog.jquery.com/feed/
+http://blog.jqueryui.com/feed/
+http://jquerymobile.com/feed/
+http://ajaxian.com/index.xml
+http://www.ysearchblog.com/index.rdf
+
+# Languages - GoLang
+http://blog.golang.org/feeds/posts/default
+http://gophertimes.com/rss/all.rss
+http://commandcenter.blogspot.com/feeds/posts/default
+
+# Open Source
+http://sql-info.de/?mode=rdf
+http://blog.getbootstrap.com/feed/
+
+# People
+http://antirez.com/rss
+http://passthesource.org.nz/feed/
+http://nf.id.au/rss.xml
+http://blog.labix.org/feed
+http://feeds.feedburner.com/holman
+http://raphaelhertzog.com/feed/
+http://perspectives.mvdirona.com/SyndicationService.asmx/GetRss
+http://www.allthingsdistributed.com/atom.xml
+http://phpied.com/feed/
+http://www.billkatz.com/feeds/atom.xml
+http://www.catonmat.net/feed/
+http://openquery.com/blog/feed/atom
+http://www.stevesouders.com/blog/feed/atom/
+http://ejohn.org/index.rdf
+
+# Companies/Products
+http://googlewebmastercentral.blogspot.com/atom.xml
+http://googlereader.blogspot.com/atom.xml
+http://google-opensource.blogspot.com/feeds/posts/default
+http://google-engtools.blogspot.com/feeds/posts/default
+http://chrome.blogspot.com/feeds/posts/default
+http://googledocs.blogspot.com/feeds/posts/default
+http://blog.chromium.org/feeds/posts/default
+http://blog.xero.com/feed/
+https://github.com/blog/broadcasts.atom
+https://github.com/blog/ship.atom
+https://github.com/blog/watercooler.atom
+http://blog.rightscale.com/feed/
+http://feeds.feedburner.com/37signals/beMH
+http://feeds.feedburner.com/TheGozette
+http://blog.trello.com/feed/
+http://blog.nodejitsu.com/feed.xml
+http://www.rackspace.com/blog/channels-rss/?channel=2
+http://aws.amazon.com/rss/whats-new.rss
+http://feeds.feedburner.com/AmazonWebServicesBlog
+http://sesblog.amazon.com/blog/feed/recentPosts.rss
+http://feeds.alestic.com/alestic
