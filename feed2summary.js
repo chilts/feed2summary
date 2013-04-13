@@ -9,6 +9,7 @@
 var fs = require('fs');
 var http = require('http');
 var https = require('https');
+var util = require('util');
 
 var async = require('async');
 var sax = require('sax');
@@ -19,6 +20,29 @@ var levelup = require('levelup');
 var filename = process.argv[2];
 var data = fs.readFileSync(filename, 'utf8');
 var feeds = data.split(/\n/);
+console.log(util.inspect(feeds, false, null, true));
+feeds = feeds.filter(function(feed, i) {
+    // if feed is a blank line then filter out
+    if ( !feed.match(/\S/) ) {
+        return false;
+    }
+
+    // if feed begins with //, then filter out
+    if ( feed.match(/^\s*\#/) ) {
+        return false;
+    }
+
+    return true;
+});
+console.log(util.inspect(feeds, false, null, true));
+feeds = feeds.map(function(feed, i) {
+    // convert to an object so we can save stuff to it
+    return {
+        url   : feed,
+        links : [],
+    };
+});
+console.log(util.inspect(feeds, false, null, true));
 
 var db = levelup(filename + '.db');
 
@@ -27,16 +51,6 @@ var db = levelup(filename + '.db');
 async.eachSeries(
     feeds,
     function(feed, done) {
-        // if feed is a blank line, then just done()
-        if ( !feed.match(/\S/) ) {
-            return done();
-        }
-
-        // if feed begins with //, then just done()
-        if ( feed.match(/^\s*\#/) ) {
-            return done();
-        }
-
         // remember some state when parsing the file
         var type = 'unknown';
         var title;
@@ -45,13 +59,10 @@ async.eachSeries(
         var state = 'new';
 
         log('-------------------------------------------------------------------------------');
-        log('Fetching ' + feed);
+        log('Fetching ' + feed.url);
 
-        // ToDo: create an XML streaming parser and save each item to the 'entries'
+        // create an XML streaming parser and save each item to the 'entries'
         var parser = sax.createStream(false);
-        parser.onend = function() {
-            log('Finished ' + feed);
-        };
 
         parser.on("opentag", function (node) {
             debug('Detected open tag : ' + node.name);
@@ -112,6 +123,13 @@ async.eachSeries(
             if ( type == 'rss' && state === 'gotitemstart' && node === 'ITEM' ) {
                 debug('Got </item>, saving item');
 
+                // save this for later processing
+                feed.links.push({
+                    title : title,
+                    link  : link,
+                });
+
+                // this is a new link
                 log('* ' + title);
                 log('  -> ' + link + "\n");
 
@@ -128,6 +146,12 @@ async.eachSeries(
                 log('* ' + title);
                 log('  -> ' + link + "\n");
 
+                // save this for later processing
+                feed.links.push({
+                    title : title,
+                    link  : link,
+                });
+
                 // reset some state
                 state = 'new';
                 title = undefined;
@@ -143,24 +167,72 @@ async.eachSeries(
         });
 
         // stream each RSS file to the XML Parser
-        request(feed, function(err, res) {
+        request(feed.url, function(err, res) {
             if (err) {
                 log('');
                 log('' + err + "\n");
-                log('Finished ' + feed);
+                log('Finished ' + feed.url);
                 return done();
             }
 
             // all good, so pipe into the parser
             res.pipe(parser);
             res.on('end', function() {
-                log('Finished ' + feed);
+                log('Finished2 ' + feed.url);
                 done();
             });
         });
     },
     function(results) {
         log('-------------------------------------------------------------------------------');
+
+        // filter out any results which we've already seen
+        async.eachSeries(
+            feeds,
+            function(feed, callback) {
+                // if there are no feeds
+                async.filter(
+                    feed.links,
+                    function(link, filter) {
+                        // check if this feed.url exists in LevelDB and if not, allow it
+                        db.get(link.link, function(err, value) {
+                            if (err) {
+                                if (err.name === 'NotFoundError' ) {
+                                    debug('Putting ' + link.link);
+                                    db.put(link.link, (new Date()).toISOString(), function(err) {
+                                        filter(true);
+                                    });
+                                }
+                                else {
+                                    // something went wrong
+                                    console.warn('Error:' + err);
+                                    process.exit(2);
+                                }
+                            }
+                            else {
+                                // already exists
+                                debug('Exists ' + link.link);
+                                filter(false);
+                            }
+                        });
+                    },
+                    function(newLinks) {
+                        // finished filtering feed.links
+                        feed.links = newLinks;
+                        callback();
+                    }
+                );
+            },
+            function(err) {
+                log('Finishing processing feeds');
+                log('-------------------------------------------------------------------------------');
+
+                // finally, print out all of the feeds as they now stand
+                console.log(util.inspect(feeds, false, null, true));
+
+                log('-------------------------------------------------------------------------------');
+            }
+        );
     }
 );
 
@@ -192,12 +264,12 @@ function request(url, callback) {
 
 // ----------------------------------------------------------------------------
 
-var debug = function(msg) {
+function debug(msg) {
     if ( false ) {
         console.log(msg);
     }
 };
-var log = function(msg) {
+function log(msg) {
     console.log(msg);
 }
 
