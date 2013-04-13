@@ -91,7 +91,7 @@ async.eachSeries(
 
             // if we have seen an <item>, then we should see a <title> and <link>
             if ( type === 'rss' && state === 'gotitemstart' && node === 'TITLE' ) {
-                debug('Saving title : ' + title);
+                debug('Saving title : ' + text);
                 title = text;
             }
             if ( type === 'rss' && state === 'gotitemstart' && node === 'LINK' ) {
@@ -101,13 +101,13 @@ async.eachSeries(
 
             // if we have seen an <entry>, then we should also see a <title>
             if ( type === 'atom' && state === 'gotitemstart' && node === 'TITLE' ) {
-                debug('Saving title : ' + title);
+                debug('Saving title : ' + text);
                 title = text;
             }
             // (link is an attribute on <entry>, so we've already seen that
 
             // if we have a </item> then, reset
-            if ( type == 'atom' && state === 'gotitemstart' && node === 'ITEM' ) {
+            if ( type == 'rss' && state === 'gotitemstart' && node === 'ITEM' ) {
                 debug('Got </item>, saving item');
                 items.push({ title : title, link : link });
 
@@ -138,15 +138,23 @@ async.eachSeries(
 
         // always save what we have see when we get a text node
         parser.on("text", function (t) {
-            // debug('Text=' + t);
+            debug('Text=' + t);
             text = t;
         });
 
         // stream each RSS file to the XML Parser
         request(feed, function(err, res) {
+            if (err) {
+                log('');
+                log('' + err + "\n");
+                log('Finished ' + feed);
+                return done();
+            }
+
+            // all good, so pipe into the parser
             res.pipe(parser);
             res.on('end', function() {
-                log('Finished : ' + feed);
+                log('Finished ' + feed);
                 done();
             });
         });
@@ -165,26 +173,19 @@ function request(url, callback) {
         protocol = https;
     }
     else {
-        console.log('Unknown protocol');
         return callback(new Error('Unknown protocol'));
     }
 
     protocol.get(url, function(res) {
-        console.log("Got response: " + res.statusCode);
-        // console.log("Got response: ", res);
+        log("Got response " + res.statusCode);
 
-        // res.setEncoding('utf8');
-        return callback(null, res);
+        if ( res.statusCode !== 200 ) {
+            return callback(new Error('Status code was not 200'));
+        }
 
-        res.on('data', function (chunk) {
-            console.log('BODY: ' + chunk.length);
-        });
-        res.on('end', function() {
-            callback();
-        });
-
+        // everything looks ok
+        callback(null, res);
     }).on('error', function(e) {
-        console.log("Got error: " + e.message);
         callback(e);
     });
 }
