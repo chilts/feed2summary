@@ -39,7 +39,7 @@ feeds = feeds.map(function(feed, i) {
     // convert to an object so we can save stuff to it
     return {
         url   : feed,
-        links : [],
+        items : [],
     };
 });
 console.log(util.inspect(feeds, false, null, true));
@@ -124,7 +124,7 @@ async.eachSeries(
                 debug('Got </item>, saving item');
 
                 // save this for later processing
-                feed.links.push({
+                feed.items.push({
                     title : title,
                     link  : link,
                 });
@@ -147,7 +147,7 @@ async.eachSeries(
                 log('  -> ' + link + "\n");
 
                 // save this for later processing
-                feed.links.push({
+                feed.items.push({
                     title : title,
                     link  : link,
                 });
@@ -167,7 +167,7 @@ async.eachSeries(
         });
 
         // stream each RSS file to the XML Parser
-        request(feed.url, function(err, res) {
+        request(feed, function(err, res) {
             if (err) {
                 log('');
                 log('' + err + "\n");
@@ -178,7 +178,7 @@ async.eachSeries(
             // all good, so pipe into the parser
             res.pipe(parser);
             res.on('end', function() {
-                log('Finished2 ' + feed.url);
+                log('Finished ' + feed.url);
                 done();
             });
         });
@@ -190,16 +190,19 @@ async.eachSeries(
         async.eachSeries(
             feeds,
             function(feed, callback) {
-                // if there are no feeds
+                // save the number if items found
+                feed.total = feed.items.length;
+
+                // filter out any items we have already seen
                 async.filter(
-                    feed.links,
-                    function(link, filter) {
+                    feed.items,
+                    function(item, filter) {
                         // check if this feed.url exists in LevelDB and if not, allow it
-                        db.get(link.link, function(err, value) {
+                        db.get(item.link, function(err, value) {
                             if (err) {
                                 if (err.name === 'NotFoundError' ) {
-                                    debug('Putting ' + link.link);
-                                    db.put(link.link, (new Date()).toISOString(), function(err) {
+                                    debug('Putting ' + item.link);
+                                    db.put(item.link, (new Date()).toISOString(), function(err) {
                                         filter(true);
                                     });
                                 }
@@ -211,14 +214,18 @@ async.eachSeries(
                             }
                             else {
                                 // already exists
-                                debug('Exists ' + link.link);
+                                debug('Exists ' + item.link);
                                 filter(false);
                             }
                         });
                     },
-                    function(newLinks) {
-                        // finished filtering feed.links
-                        feed.links = newLinks;
+                    function(newItems) {
+                        // finished filtering feed.items
+                        feed.items = newItems;
+
+                        // save the number if new items
+                        feed.new = newItems.length;
+
                         callback();
                     }
                 );
@@ -236,20 +243,23 @@ async.eachSeries(
     }
 );
 
-function request(url, callback) {
+function request(feed, callback) {
     var protocol;
-    if ( url.match(/^http:\/\//) ) {
+    if ( feed.url.match(/^http:\/\//) ) {
         protocol = http;
     }
-    else if ( url.match(/^https:\/\//) ) {
+    else if ( feed.url.match(/^https:\/\//) ) {
         protocol = https;
     }
     else {
         return callback(new Error('Unknown protocol'));
     }
 
-    protocol.get(url, function(res) {
+    protocol.get(feed.url, function(res) {
         log("Got response " + res.statusCode);
+
+        // save the statusCode so we can see it
+        feed.statusCode = res.statusCode;
 
         if ( res.statusCode !== 200 ) {
             return callback(new Error('Status code was not 200'));
