@@ -111,7 +111,6 @@ async.eachSeries(
             // if we have a </item> then, reset
             if ( type == 'rss' && state === 'gotitemstart' && node === 'ITEM' ) {
                 debug('Got </item>, saving item');
-                items.push({ title : title, link : link });
 
                 log('* ' + title);
                 log('  -> ' + link + "\n");
@@ -125,7 +124,6 @@ async.eachSeries(
             // if we have a </entry> then, reset
             if ( type == 'atom' && state === 'gotitemstart' && node === 'ENTRY' ) {
                 debug('Got </entry>, saving item');
-                items.push({ title : title, link : link });
 
                 log('* ' + title);
                 log('  -> ' + link + "\n");
