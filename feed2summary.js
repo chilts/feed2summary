@@ -20,7 +20,8 @@ var levelup = require('levelup');
 var filename = process.argv[2];
 var data = fs.readFileSync(filename, 'utf8');
 var feeds = data.split(/\n/);
-console.log(util.inspect(feeds, false, null, true));
+
+// filter out blank lines and comment lines
 feeds = feeds.filter(function(feed, i) {
     // if feed is a blank line then filter out
     if ( !feed.match(/\S/) ) {
@@ -34,7 +35,8 @@ feeds = feeds.filter(function(feed, i) {
 
     return true;
 });
-console.log(util.inspect(feeds, false, null, true));
+
+// convert each URL into an object
 feeds = feeds.map(function(feed, i) {
     // convert to an object so we can save stuff to it
     return {
@@ -42,8 +44,8 @@ feeds = feeds.map(function(feed, i) {
         items : [],
     };
 });
-console.log(util.inspect(feeds, false, null, true));
 
+// open the LevelDB which we use as temporary storage
 var db = levelup(filename + '.db');
 
 // ----------------------------------------------------------------------------
@@ -68,11 +70,11 @@ async.eachSeries(
             debug('Detected open tag : ' + node.name);
 
             if ( type === 'unknown' && node.name === 'RSS' ) {
-                log('Detected RSS feed\n');
+                log('Detected RSS feed');
                 type = 'rss';
             }
             if ( type === 'unknown' && node.name === 'FEED' ) {
-                log('Detected Atom feed\n');
+                log('Detected Atom feed');
                 type = 'atom';
             }
 
@@ -129,10 +131,6 @@ async.eachSeries(
                     link  : link,
                 });
 
-                // this is a new link
-                log('* ' + title);
-                log('  -> ' + link + "\n");
-
                 // reset some state
                 state = 'new';
                 title = undefined;
@@ -142,9 +140,6 @@ async.eachSeries(
             // if we have a </entry> then, reset
             if ( type == 'atom' && state === 'gotitemstart' && node === 'ENTRY' ) {
                 debug('Got </entry>, saving item');
-
-                log('* ' + title);
-                log('  -> ' + link + "\n");
 
                 // save this for later processing
                 feed.items.push({
@@ -178,7 +173,10 @@ async.eachSeries(
             // all good, so pipe into the parser
             res.pipe(parser);
             res.on('end', function() {
-                log('Finished ' + feed.url);
+                // save the number if items found
+                feed.total = feed.items.length;
+
+                log('Found ' + feed.total + ' item(s)');
                 done();
             });
         });
@@ -190,9 +188,6 @@ async.eachSeries(
         async.eachSeries(
             feeds,
             function(feed, callback) {
-                // save the number if items found
-                feed.total = feed.items.length;
-
                 // filter out any items we have already seen
                 async.filter(
                     feed.items,
@@ -231,9 +226,6 @@ async.eachSeries(
                 );
             },
             function(err) {
-                log('Finishing processing feeds');
-                log('-------------------------------------------------------------------------------');
-
                 // finally, print out all of the feeds as they now stand
                 console.log(util.inspect(feeds, false, null, true));
 
@@ -256,11 +248,12 @@ function request(feed, callback) {
     }
 
     protocol.get(feed.url, function(res) {
-        log("Got response " + res.statusCode);
+        debug("Got response " + res.statusCode);
 
         // save the statusCode so we can see it
         feed.statusCode = res.statusCode;
 
+        // if this looks a bit suspicious, return an error
         if ( res.statusCode !== 200 ) {
             return callback(new Error('Status code was not 200'));
         }
