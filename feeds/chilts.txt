@@ -15,7 +15,7 @@ http://www.kickstarter.com/backing-and-hacking.atom
 http://www.twilio.com/engineering/feed/
 http://techblog.netflix.com/feeds/posts/default
 http://feeds.feedburner.com/bitlyword
-http://code.flickr.com/blog/feed/
+http://code.flickr.net/feed/
 http://engineering.linkedin.com/taxonomy/term/1/feed
 https://github.com/blog/engineering.atom
 http://devops.rackspace.com/feed
