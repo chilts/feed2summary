@@ -1,0 +1,12 @@
+{
+    "name" : "feed2summary",
+    "description" : "An rss/atom to stdout processor.",
+    "version" : "0.1.0",
+    "private" : true,
+
+    "dependencies" : {
+        "async" : "0.2.x",
+        "sax" : "0.5.x",
+        "levelup" : "0.7.x"
+    }
+}
