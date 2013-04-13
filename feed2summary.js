@@ -35,6 +35,11 @@ async.eachSeries(
             return done();
         }
 
+        // if feed begins with //, then just done()
+        if ( feed.match(/^\s*\#/) ) {
+            return done();
+        }
+
         // remember some state when parsing the file
         var type = 'unknown';
         var title;
