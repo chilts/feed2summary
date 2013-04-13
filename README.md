@@ -8,14 +8,6 @@ Deals with both RSS and Atom feeds.
 ## Example ##
 
 ```
-$ cat feeds.txt
-# Mine
-http://chilts.org/blog/atom.xml
-
-# Geek
-http://www.kickstarter.com/backing-and-hacking.atom
-https://github.com/blog/ship.atom
-
 $ node feed2summary.js feeds.txt
 -------------------------------------------------------------------------------
 Fetching http://chilts.org/blog/atom.xml
@@ -51,5 +43,18 @@ Found 15 item(s)
     new: 1 } ]
 -------------------------------------------------------------------------------
 ```
+
+This is the ```feeds.txt``` in the above example:
+
+```
+# Mine
+http://chilts.org/blog/atom.xml
+
+# Geek
+http://www.kickstarter.com/backing-and-hacking.atom
+https://github.com/blog/ship.atom
+```
+
+Empty lines and lines starting with # are ignored.
 
 (Ends)
