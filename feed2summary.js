@@ -227,7 +227,7 @@ async.eachSeries(
             },
             function(err) {
                 // finally, print out all of the feeds as they now stand
-                console.log(util.inspect(feeds, false, null, true));
+                console.log(util.inspect(feeds, false, null, false));
 
                 log('-------------------------------------------------------------------------------');
             }
