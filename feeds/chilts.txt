@@ -7,7 +7,6 @@ http://api.flickr.com/services/feeds/groups_pool.gne?id=619684@N24&amp;lang=en-u
 # http://simple.zaapt.org.nz/blog/rss20.xml
 # http://simple.zaapt.org.nz/news/rss20.xml
 # http://zaapt.org.nz/news/rss20.xml
-http://triumphovermadness.com/blog/feed/
 http://feeds.feedburner.com/ChiltsOrg-Photo
 
 # Technology/Devops
@@ -18,7 +17,7 @@ http://feeds.feedburner.com/bitlyword
 http://code.flickr.net/feed/
 http://engineering.linkedin.com/taxonomy/term/1/feed
 https://github.com/blog/engineering.atom
-http://devops.rackspace.com/feed
+http://devops.rackspace.com/atom.xml
 
 # Geek
 https://github.com/blog/broadcasts.atom
@@ -29,31 +28,29 @@ http://static.fsf.org/fsforg/rss/news.xml
 
 # Node.js
 http://blog.nodejs.org/feed/
-http://feeds.feedburner.com/badassjs
 http://tjholowaychuk.com/rss
 http://substack.net/blog.xml
-http://nodebits.org/feed.xml
 http://blog.nodejs.org/feed/
-http://joyeur.com/feed/
+http://joyent.com/blog/feed
 http://howtonode.org/feed.xml
 http://blog.izs.me/rss
 http://feeds.feedburner.com/debuggable
 
 # JavaScript
-http://blog.jquery.com/feed/
-http://blog.jqueryui.com/feed/
+http://feeds.feedburner.com/jquery/
+http://feeds2.feedburner.com/jquery-ui
 http://jquerymobile.com/feed/
 http://ajaxian.com/index.xml
 http://www.ysearchblog.com/index.rdf
 
 # Languages - GoLang
 http://blog.golang.org/feeds/posts/default
-http://gophertimes.com/rss/all.rss
+http://gophertimes.com/articles.rss
 http://commandcenter.blogspot.com/feeds/posts/default
 
 # Open Source
-http://sql-info.de/?mode=rdf
-http://blog.getbootstrap.com/feed/
+http://sql-info.de/index.html?mode=rdf
+http://blog.getbootstrap.com/feed.xml
 
 # People
 http://antirez.com/rss
