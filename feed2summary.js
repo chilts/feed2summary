@@ -40,8 +40,7 @@ feeds = feeds.filter(function(feed, i) {
 // convert each URL into an object
 feeds = feeds.map(function(feed, i) {
     // firstly, strip any intitial spaces and anything after the first space
-    feed = feed.replace(/^\s*/, '');
-    feed = feed.replace(/\s.*$/, '');
+    feed = feed.trim();
 
     // convert to an object so we can save stuff to it
     return {
@@ -102,7 +101,7 @@ async.eachSeries(
             // let's also look for a <link> (if atom)
             if ( type === 'atom' && state === 'gotitemstart' && node.name === 'LINK' ) {
                 debug('Found link : ' + node.attributes.HREF);
-                link = node.attributes.HREF;
+                link = node.attributes.HREF.trim();
             }
         });
 
@@ -163,7 +162,7 @@ async.eachSeries(
         // always save what we have see when we get a text node
         parser.on("text", function (t) {
             debug('Text=' + t);
-            text = t;
+            text = t.trim();
         });
 
         // stream each RSS file to the XML Parser
