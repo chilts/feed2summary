@@ -60,8 +60,8 @@ async.eachSeries(
         var text; // the text in the last tag
         var state = 'new';
 
-        log('-------------------------------------------------------------------------------');
-        log('Fetching ' + feed.url);
+        debug('-------------------------------------------------------------------------------');
+        debug('Fetching ' + feed.url);
 
         // create an XML streaming parser and save each item to the 'entries'
         var parser = sax.createStream(false);
@@ -70,11 +70,11 @@ async.eachSeries(
             debug('Detected open tag : ' + node.name);
 
             if ( type === 'unknown' && node.name === 'RSS' ) {
-                log('Detected RSS feed');
+                debug('Detected RSS feed');
                 type = 'rss';
             }
             if ( type === 'unknown' && node.name === 'FEED' ) {
-                log('Detected Atom feed');
+                debug('Detected Atom feed');
                 type = 'atom';
             }
 
@@ -164,9 +164,9 @@ async.eachSeries(
         // stream each RSS file to the XML Parser
         request(feed, function(err, res) {
             if (err) {
-                log('');
-                log('' + err + "\n");
-                log('Finished ' + feed.url);
+                debug('');
+                debug('' + err + "\n");
+                debug('Finished ' + feed.url);
                 return done();
             }
 
@@ -176,13 +176,13 @@ async.eachSeries(
                 // save the number if items found
                 feed.total = feed.items.length;
 
-                log('Found ' + feed.total + ' item(s)');
+                debug('Found ' + feed.total + ' item(s)');
                 done();
             });
         });
     },
     function(results) {
-        log('-------------------------------------------------------------------------------');
+        debug('-------------------------------------------------------------------------------');
 
         // filter out any results which we've already seen
         async.eachSeries(
@@ -227,9 +227,34 @@ async.eachSeries(
             },
             function(err) {
                 // finally, print out all of the feeds as they now stand
-                console.log(util.inspect(feeds, false, null, false));
+                // console.log(util.inspect(feeds, false, null, false));
 
-                log('-------------------------------------------------------------------------------');
+                feeds.forEach(function(feed) {
+                    if ( feed.statusCode === 200 ) {
+                        // see if there are any new feeds
+                        if ( feed.new > 0 ) {
+                            line();
+                            log(feed.url + "\n");
+                            feed.items.forEach(function(item, i) {
+                                log('* ' + item.title);
+                                log(' -> ' + item.link);
+                                log('');
+                            });
+                        }
+                    }
+                    else {
+                        // something went wrong
+                        line();
+                        log(feed.url + "\n");
+                        log('* status   = ' + feed.statusCode);
+                        if ( feed.redirect ) {
+                            log('* redirect = ' + feed.redirect);
+                        }
+                        log('');
+                    }
+                });
+
+                line();
             }
         );
     }
@@ -255,7 +280,11 @@ function request(feed, callback) {
 
         // if this looks a bit suspicious, return an error
         if ( res.statusCode !== 200 ) {
-            return callback(new Error('Status code was not 200'));
+            if ( res.statusCode === 301 || res.statusCode === 302 ) {
+                // save this so we can print it out later
+                feed.redirect = res.headers.location;
+            }
+            return callback(new Error('Status code was not 200 (' + res.statusCode + ')'));
         }
 
         // everything looks ok
@@ -274,6 +303,10 @@ function debug(msg) {
 };
 function log(msg) {
     console.log(msg);
+}
+
+function line() {
+    console.log('-------------------------------------------------------------------------------');
 }
 
 // ----------------------------------------------------------------------------
