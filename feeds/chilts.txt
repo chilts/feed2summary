@@ -40,8 +40,6 @@ http://feeds.feedburner.com/debuggable
 http://feeds.feedburner.com/jquery/
 http://feeds2.feedburner.com/jquery-ui
 http://jquerymobile.com/feed/
-http://ajaxian.com/index.xml
-http://www.ysearchblog.com/index.rdf
 
 # Languages - GoLang
 http://blog.golang.org/feeds/posts/default
@@ -58,15 +56,13 @@ http://passthesource.org.nz/feed/
 http://nf.id.au/rss.xml
 http://blog.labix.org/feed
 http://feeds.feedburner.com/holman
-http://raphaelhertzog.com/feed/
+http://feeds.feedburner.com/RaphaelHertzogCom
 http://perspectives.mvdirona.com/SyndicationService.asmx/GetRss
 http://www.allthingsdistributed.com/atom.xml
-http://phpied.com/feed/
-http://www.billkatz.com/feeds/atom.xml
-http://www.catonmat.net/feed/
+http://www.phpied.com/feed/
 http://openquery.com/blog/feed/atom
 http://www.stevesouders.com/blog/feed/atom/
-http://ejohn.org/index.rdf
+http://feeds.feedburner.com/JohnResig
 
 # Companies/Products
 http://googlewebmastercentral.blogspot.com/atom.xml
