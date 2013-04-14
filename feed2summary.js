@@ -29,7 +29,7 @@ feeds = feeds.filter(function(feed, i) {
         return false;
     }
 
-    // if feed begins with //, then filter out
+    // if feed begins with #, then filter out
     if ( feed.match(/^\s*\#/) ) {
         return false;
     }
@@ -39,6 +39,10 @@ feeds = feeds.filter(function(feed, i) {
 
 // convert each URL into an object
 feeds = feeds.map(function(feed, i) {
+    // firstly, strip any intitial spaces and anything after the first space
+    feed = feed.replace(/^\s*/, '');
+    feed = feed.replace(/\s.*$/, '');
+
     // convert to an object so we can save stuff to it
     return {
         url   : feed,
