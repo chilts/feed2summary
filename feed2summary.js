@@ -14,6 +14,7 @@ var util = require('util');
 var async = require('async');
 var sax = require('sax');
 var levelup = require('levelup');
+var fmt = require('fmt');
 
 // ----------------------------------------------------------------------------
 
@@ -233,28 +234,26 @@ async.eachSeries(
                     if ( feed.statusCode === 200 ) {
                         // see if there are any new feeds
                         if ( feed.new > 0 ) {
-                            line();
-                            log(feed.url + "\n");
+                            fmt.sep();
+                            fmt.title(feed.url);
                             feed.items.forEach(function(item, i) {
-                                log('* ' + item.title);
-                                log(' -> ' + item.link);
-                                log('');
+                                fmt.li(item.title);
+                                fmt.li(' -> ' + item.link + "\n");
                             });
                         }
                     }
                     else {
                         // something went wrong
-                        line();
-                        log(feed.url + "\n");
-                        log('* status   = ' + feed.statusCode);
+                        fmt.sep();
+                        fmt.title(feed.url);
+                        fmt.field('status', feed.statusCode);
                         if ( feed.redirect ) {
-                            log('* redirect = ' + feed.redirect);
+                            fmt.field('redirect', feed.redirect);
                         }
-                        log('');
                     }
                 });
 
-                line();
+                fmt.sep();
             }
         );
     }
