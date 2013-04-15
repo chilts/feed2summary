@@ -42,9 +42,20 @@ feeds = feeds.map(function(feed, i) {
     // firstly, strip any intitial spaces and anything after the first space
     feed = feed.trim();
 
-    // convert to an object so we can save stuff to it
+    // if this feed starts with 'http', then it's only a link
+    if ( feed.match(/^https?:\/\//) ) {
+        return {
+            title : 'URL',
+            url   : feed,
+            items : [],
+        };
+    }
+
+    // since regular links are now gone, we should always have a 'title=url' line
+    var bits = feed.split('=');
     return {
-        url   : feed,
+        title : bits[0],
+        url   : bits.slice(1).join('='),
         items : [],
     };
 });
@@ -238,7 +249,7 @@ async.eachSeries(
                         // see if there are any new feeds
                         if ( feed.new > 0 ) {
                             fmt.sep();
-                            fmt.title(feed.url);
+                            fmt.title(feed.title + ' (' + feed.url + ')');
                             feed.items.forEach(function(item, i) {
                                 fmt.li(item.title);
                                 fmt.li(' -> ' + item.link + "\n");
@@ -248,7 +259,7 @@ async.eachSeries(
                     else {
                         // something went wrong
                         fmt.sep();
-                        fmt.title(feed.url);
+                        fmt.title(feed.title + ' (' + feed.url + ')');
                         fmt.field('status', feed.statusCode);
                         if ( feed.redirect ) {
                             fmt.field('redirect', feed.redirect);
