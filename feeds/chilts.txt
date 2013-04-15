@@ -65,9 +65,9 @@ http://www.stevesouders.com/blog/feed/atom/
 http://feeds.feedburner.com/JohnResig
 
 # Companies/Products
-GoogleWebmasterCentral=http://feedproxy.google.com/blogspot/amDG
-GoogleReader=http://feedproxy.google.com/blogspot/dtKx
-GoogleOpenSource=http://feedproxy.google.com/GoogleOpenSourceBlog
+GoogleWebmasterCentral=http://feeds.feedburner.com/blogspot/amDG
+GoogleReader=http://feeds.feedburner.com/blogspot/dtKx
+GoogleOpenSource=http://feeds.feedburner.com/GoogleOpenSourceBlog
 GoogleEngToosl=http://feeds.feedburner.com/GoogleEngineeringTools
 Chrome=http://feeds2.feedburner.com/blogspot/Egta
 GoogleDrive=http://feeds.feedburner.com/blogspot/SbaOa
