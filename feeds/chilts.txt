@@ -65,12 +65,12 @@ http://www.stevesouders.com/blog/feed/atom/
 http://feeds.feedburner.com/JohnResig
 
 # Companies/Products
-http://feedproxy.google.com/blogspot/amDG          # http://googlewebmastercentral.blogspot.com/atom.xml
-http://feedproxy.google.com/blogspot/dtKx          # http://googlereader.blogspot.com/atom.xml
-http://feedproxy.google.com/GoogleOpenSourceBlog   # http://google-opensource.blogspot.com/feeds/posts/default
-http://feeds.feedburner.com/GoogleEngineeringTools # http://google-engtools.blogspot.com/feeds/posts/default
-http://feeds2.feedburner.com/blogspot/Egta         # http://chrome.blogspot.com/feeds/posts/default
-http://googledocs.blogspot.com/feeds/posts/default # http://feeds.feedburner.com/blogspot/SbaOa
+GoogleWebmasterCentral=http://feedproxy.google.com/blogspot/amDG
+GoogleReader=http://feedproxy.google.com/blogspot/dtKx
+GoogleOpenSource=http://feedproxy.google.com/GoogleOpenSourceBlog
+GoogleEngToosl=http://feeds.feedburner.com/GoogleEngineeringTools
+Chrome=http://feeds2.feedburner.com/blogspot/Egta
+GoogleDrive=http://feeds.feedburner.com/blogspot/SbaOa
 http://blog.chromium.org/feeds/posts/default
 http://blog.xero.com/feed/
 https://github.com/blog/broadcasts.atom
