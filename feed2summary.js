@@ -288,23 +288,29 @@ async.eachSeries(
             },
             function(err) {
                 // finally, print out all of the feeds as they now stand
-                // console.log(util.inspect(feeds, false, null, false));
+                // first, the good feeds (with new posts) then the bad ones
+
+                fmt.sep();
 
                 feeds.forEach(function(feed) {
                     if ( feed.statusCode === 200 ) {
                         // see if there are any new feeds
                         if ( feed.new > 0 ) {
-                            fmt.sep();
                             fmt.title(feed.title + ' (' + feed.url + ')');
+                            console.log();
                             feed.items.forEach(function(item, i) {
                                 fmt.li(item.title);
                                 fmt.li(' -> ' + item.link + "\n");
                             });
                         }
                     }
-                    else {
+                });
+
+                fmt.sep();
+
+                feeds.forEach(function(feed) {
+                    if ( feed.statusCode !== 200 ) {
                         // something went wrong
-                        fmt.sep();
                         fmt.title(feed.title + ' (' + feed.url + ')');
                         fmt.field('status', feed.statusCode);
                         fmt.field('reason', feed.reason);
