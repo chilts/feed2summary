@@ -7,54 +7,74 @@ Deals with both RSS and Atom feeds.
 
 ## Example ##
 
-```
-$ node feed2summary.js feeds.txt
--------------------------------------------------------------------------------
-Fetching http://chilts.org/blog/atom.xml
-Detected Atom feed
-Found 30 item(s)
--------------------------------------------------------------------------------
-Fetching http://www.kickstarter.com/backing-and-hacking.atom
-Detected Atom feed
-Found 2 item(s)
--------------------------------------------------------------------------------
-Fetching https://github.com/blog/ship.atom
-Detected Atom feed
-Found 15 item(s)
--------------------------------------------------------------------------------
-[ { url: 'http://chilts.org/blog/atom.xml',
-     [ { title: 'Using Queues in a State Machine',
-         link: 'http://chilts.org/blog/using-async-queue-as-a-state-machine.html' },
-       { title: 'AwsSum\'s Overall Plan',
-         link: 'http://chilts.org/blog/awssums-overall-plan.html' } ],
-    statusCode: 200,
-    total: 30,
-    new: 2 },
-  { url: 'http://www.kickstarter.com/backing-and-hacking.atom',
-    items: [],
-    statusCode: 200,
-    total: 2,
-    new: 0 },
-  { url: 'https://github.com/blog/ship.atom',
-     [ { title: 'Redesigned merge button',
-         link: 'https://github.com/blog/1469-redesigned-merge-button' } ],
-    statusCode: 200,
-    total: 15,
-    new: 1 } ]
--------------------------------------------------------------------------------
-```
+### Feeds File ###
 
-This is the ```feeds.txt``` in the above example:
+The feeds file is a plain text file which contains your RSS/Atom links. Each line can be either the feed ```url``` or a
+```title=url``` format. The title is used in the output (helpful for feeds which are opaque):
 
 ```
-# Mine
-http://chilts.org/blog/atom.xml
-
-# Geek
-http://www.kickstarter.com/backing-and-hacking.atom
-https://github.com/blog/ship.atom
+http://example.com/rss
+Example=http://example.com/rss
 ```
 
 Empty lines and lines starting with # are ignored.
+
+### Running feed2summary.js ###
+
+```
+$ which node
+/home/ubuntu/.nvm/v0.8.23/bin/node
+
+$ git clone git://github.com/chilts/feed2summary.git
+...etc...
+
+$ cd feed2summary
+
+$ npm install
+...etc...
+
+$ vi feeds/mine.txt
+
+$ node feed2summary.js feeds/mine.txt
+...etc...
+```
+
+### Output ###
+
+For a feed file such as this:
+
+```
+# Mine
+Chilts=http://chilts.org/blog/atom.xml
+
+# Geek
+http://www.kickstarter.com/backing-and-hacking.atom
+GitHub-Ship=https://github.com/blog/ship.atom
+```
+
+And run it as follows to get the output:
+
+```
+$ node feed2summary.js feeds/readme.txt
+===============================================================================
+--- Chilts (http://chilts.org/blog/atom.xml) ----------------------------------
+
+* Using Queues in a State Machine
+*  -> http://chilts.org/blog/using-async-queue-as-a-state-machine.html
+
+* AwsSum's Overall Plan
+*  -> http://chilts.org/blog/awssums-overall-plan.html
+
+* Introducing Node AwsSum
+*  -> http://chilts.org/blog/node-awssum.html
+
+--- GitHub-Ship (https://github.com/blog/ship.atom) ---------------------------
+
+* Redesigned merge button
+*  -> https://github.com/blog/1469-redesigned-merge-button
+
+===============================================================================
+===============================================================================
+```
 
 (Ends)
