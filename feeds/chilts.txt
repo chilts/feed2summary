@@ -11,6 +11,7 @@ http://feeds.feedburner.com/ChiltsOrg-Photo
 
 # Open
 Identity=http://identity.mozilla.com/rss
+MozillaLabs=https://blog.mozilla.org/labs/feed/
 
 # Technology/Devops
 http://www.kickstarter.com/backing-and-hacking.atom
