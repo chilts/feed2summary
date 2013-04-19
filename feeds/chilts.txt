@@ -9,22 +9,24 @@ http://api.flickr.com/services/feeds/groups_pool.gne?id=619684@N24&amp;lang=en-u
 # http://zaapt.org.nz/news/rss20.xml
 http://feeds.feedburner.com/ChiltsOrg-Photo
 
+# Open
+Identity=http://identity.mozilla.com/rss
+
 # Technology/Devops
 http://www.kickstarter.com/backing-and-hacking.atom
 http://www.twilio.com/engineering/feed/
 http://techblog.netflix.com/feeds/posts/default
 http://feeds.feedburner.com/bitlyword
-http://code.flickr.net/feed/
+FlickrCode=http://code.flickr.net/feed/
 http://engineering.linkedin.com/taxonomy/term/1/feed
-https://github.com/blog/engineering.atom
-http://devops.rackspace.com/atom.xml
+GitHubEngineering=https://github.com/blog/engineering.atom
+RackspaceDevops=http://devops.rackspace.com/atom.xml
 
 # Geek
-https://github.com/blog/broadcasts.atom
-https://github.com/blog/ship.atom
-https://github.com/blog/engineering.atom
-https://github.com/blog/watercooler.atom
-http://static.fsf.org/fsforg/rss/news.xml
+GitHubBroadcasts=https://github.com/blog/broadcasts.atom
+GitHubFeatures=https://github.com/blog/ship.atom
+GitHubGossip=https://github.com/blog/watercooler.atom
+FSF=http://static.fsf.org/fsforg/rss/news.xml
 
 # Node.js
 http://blog.nodejs.org/feed/
@@ -77,11 +79,11 @@ https://github.com/blog/broadcasts.atom
 https://github.com/blog/ship.atom
 https://github.com/blog/watercooler.atom
 http://blog.rightscale.com/feed/
-http://feeds.feedburner.com/37signals/beMH
+37Signals=http://feeds.feedburner.com/37signals/beMH
 http://feeds.feedburner.com/TheGozette
 http://blog.trello.com/feed/
 http://blog.nodejitsu.com/feed.xml
-http://www.rackspace.com/blog/channels-rss/?channel=2
+Rackspace=http://www.rackspace.com/blog/channels-rss/?channel=2
 http://aws.amazon.com/rss/whats-new.rss
 http://feeds.feedburner.com/AmazonWebServicesBlog
 http://sesblog.amazon.com/blog/feed/recentPosts.rss
