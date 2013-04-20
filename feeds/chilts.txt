@@ -41,7 +41,7 @@ http://feeds.feedburner.com/debuggable
 
 # JavaScript
 jQuery=http://feeds.feedburner.com/jquery/
-jQueryUIhttp://feeds2.feedburner.com/jquery-ui
+jQueryUI=http://feeds2.feedburner.com/jquery-ui
 jQueryMobile=http://jquerymobile.com/feed/
 DailyJS=http://feeds.feedburner.com/dailyjs
 
