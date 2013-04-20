@@ -40,9 +40,10 @@ http://blog.izs.me/rss
 http://feeds.feedburner.com/debuggable
 
 # JavaScript
-http://feeds.feedburner.com/jquery/
-http://feeds2.feedburner.com/jquery-ui
-http://jquerymobile.com/feed/
+jQuery=http://feeds.feedburner.com/jquery/
+jQueryUIhttp://feeds2.feedburner.com/jquery-ui
+jQueryMobile=http://jquerymobile.com/feed/
+DailyJS=http://feeds.feedburner.com/dailyjs
 
 # Languages - GoLang
 http://blog.golang.org/feeds/posts/default
