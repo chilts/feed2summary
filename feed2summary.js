@@ -10,6 +10,7 @@ var fs = require('fs');
 var http = require('http');
 var https = require('https');
 var util = require('util');
+var url = require('url');
 
 var async = require('async');
 var sax = require('sax');
@@ -338,7 +339,14 @@ function request(feed, callback) {
         return callback(new Error('Unknown protocol'));
     }
 
-    protocol.get(feed.url, function(res) {
+    // split the feed up into it's constituent parts
+    var thisUrl = url.parse(feed.url);
+
+    // set the user agent
+    thisUrl.headers = thisUrl.headers || {};
+    thisUrl.headers['User-Agent'] = 'Mozilla/5.0 (compatible; feed2summary.js)';
+
+    protocol.get(thisUrl, function(res) {
         debug("Got response " + res.statusCode);
 
         // save the statusCode so we can see it
