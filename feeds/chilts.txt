@@ -1,6 +1,6 @@
 # Friends
 http://chilts.org/blog/atom.xml
-http://feeds.email-reminder.org.nz/email-reminder
+http://feeds.launchpad.net/email-reminder/announcements.atom
 http://frugalme.wordpress.com/feed/
 http://api.flickr.com/services/feeds/groups_pool.gne?id=619684@N24&amp;lang=en-us&amp;format=rss_200
 # http://zaapt.org.nz/blog/rss20.xml
