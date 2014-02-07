@@ -1,0 +1,2 @@
+# For my machine called 'cougar'
+Heroku=http://feeds2.feedburner.com/heroku
